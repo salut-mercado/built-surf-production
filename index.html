@@ -1,17 +1,43 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta name="salut-version" content="1.31.1">
-    <meta name="salut-release" content="b167ef38a485b17cc76b7d3fe1da17536655c92e">
+    <meta name="salut-version" content="1.32.0">
+    <meta name="salut-release" content="0795fab454532c82c74fa57e45b81b6053a4948d">
 
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/logo-icon.svg" />
-    <link rel="apple-touch-icon" href="/logo-icon-192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
     <title>Salut ERP</title>
+    <script>
+      window.surfAnalyticsBeforeSend = function (_type, payload) {
+        return {
+          ...payload,
+          data: {
+            ...payload.data,
+            platform: window.salutDesktop ? "desktop" : "web",
+          },
+        };
+      };
+      const umamiWebsiteId =
+        {
+          "app.salutmercado.com": "fa567abf-2e4c-4a37-b041-d4a0fbbfe105",
+          "staging.salutmercado.com": "843a4b5d-7493-40f4-b5ee-0cb3b6666263",
+        }[window.location.hostname] ?? "6565b93b-009c-4db1-aae7-afc7e36b3123";
+      const umamiScript = document.createElement("script");
+      umamiScript.id = "surf-analytics";
+      umamiScript.defer = true;
+      umamiScript.src =
+        "https://umami-gsnkom2ou0brrwtnrxqwlxtr.salutmercado.com/script.js";
+      umamiScript.dataset.websiteId = umamiWebsiteId;
+      umamiScript.dataset.excludeSearch = "true";
+      umamiScript.dataset.excludeHash = "true";
+      umamiScript.dataset.beforeSend = "surfAnalyticsBeforeSend";
+      document.head.appendChild(umamiScript);
+    </script>
     <script>
       // Block pinch-to-zoom on touch devices (Chrome/Windows, iOS Safari).
       // Viewport meta alone is insufficient on many browsers.
@@ -51,10 +77,10 @@
         }
       })(window.location);
     </script>
-    <script type="module" crossorigin src="/assets/index-BfGBT9Z3.js"></script>
+    <script type="module" crossorigin src="/assets/index-BdlMa6VV.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/framework-9dWxOEpG.js">
-    <link rel="modulepreload" crossorigin href="/assets/api-client-DM6XWU4f.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-D-JzLp8o.css">
+    <link rel="modulepreload" crossorigin href="/assets/api-client-CbO2fgSU.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-h9rTdGRD.css">
   <link rel="manifest" href="/manifest.webmanifest"></head>
   <body>
     <div id="root"></div>
