@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta name="salut-version" content="1.32.0">
-    <meta name="salut-release" content="0795fab454532c82c74fa57e45b81b6053a4948d">
+    <meta name="salut-version" content="1.33.0">
+    <meta name="salut-release" content="2d12aad6a3378efda6266037ccb82d3e2b660803">
 
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/logo-icon.svg" />
@@ -11,6 +11,102 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
+    <!-- Restore the GitHub Pages 404 redirect before the bootstrap reads location. -->
+    <script type="text/javascript" data-spa-redirect>
+      // Single Page Apps for GitHub Pages
+      // MIT License
+      // https://github.com/rafgraph/spa-github-pages
+      // This script checks to see if a redirect is present in the query string,
+      // converts it back into the correct url and adds it to the
+      // browser's history using window.history.replaceState(...),
+      // which won't cause the browser to attempt to load the new url.
+      // When the single page app is loaded further down in this file,
+      // the correct url will be waiting in the browser's history for
+      // the single page app to route accordingly.
+      (function (l) {
+        if (l.search[1] === "/") {
+          var decoded = l.search
+            .slice(1)
+            .split("&")
+            .map(function (s) {
+              return s.replace(/~and~/g, "&");
+            })
+            .join("?");
+          window.history.replaceState(
+            null,
+            null,
+            l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      })(window.location);
+    </script>
+    <script data-appearance-bootstrap>
+      // Applies the saved theme, palette, corner radius, and density before
+      // first paint. Mirrors createUseTheme and getBrowserDensity in @salut/ui
+      // and the storage keys in src/lib/theme.ts; theme-bootstrap.test.tsx
+      // checks parity.
+      (function () {
+        var root = document.documentElement;
+        var media = function (query) {
+          return Boolean(window.matchMedia && window.matchMedia(query).matches);
+        };
+        var read = function (key) {
+          try {
+            return window.localStorage.getItem(key);
+          } catch (error) {
+            return null;
+          }
+        };
+        var palettes = ["default", "easy", "olive", "harbor"];
+        var legacyPalette = read("vite-ui-palette");
+        // Light and dark each keep a palette; the single palette saved
+        // before that seeds both.
+        var paletteFor = function (scheme) {
+          var saved = read("vite-ui-palette-" + scheme);
+          if (palettes.indexOf(saved) === -1) saved = legacyPalette;
+          return palettes.indexOf(saved) === -1 ? "default" : saved;
+        };
+        var applyPalette = function (palette) {
+          if (palette !== "default") root.classList.add("palette-" + palette);
+        };
+        if (window.location.pathname.indexOf("/customer-display") !== -1) {
+          // The customer display is always light; mirrors the palette rule in
+          // customer-display.page.tsx.
+          var displayTheme = "system";
+          try {
+            displayTheme =
+              JSON.parse(read("global-store")).state.customerDisplayTheme ||
+              displayTheme;
+          } catch (error) {}
+          root.classList.add("light");
+          if (displayTheme === "orange") applyPalette("easy");
+          else if (displayTheme === "system") applyPalette(paletteFor("light"));
+        } else {
+          var theme = read("ui-theme");
+          if (theme !== "light" && theme !== "dark") {
+            theme = media("(prefers-color-scheme: dark)") ? "dark" : "light";
+          }
+          root.classList.add(theme);
+          applyPalette(paletteFor(theme));
+        }
+        var radiusScale = read("ui-radius-scale");
+        if (radiusScale !== null && radiusScale.trim() !== "") {
+          radiusScale = Number(radiusScale);
+          if (radiusScale >= 0 && radiusScale <= 2 && radiusScale !== 1)
+            root.style.setProperty("--radius-scale", String(radiusScale));
+        }
+        var density = read("ui-density");
+        if (density !== "normal" && density !== "touch") {
+          density =
+            window.salutDesktop ||
+            window.navigator.maxTouchPoints > 0 ||
+            media("(max-width: 767px), (pointer: coarse)")
+              ? "touch"
+              : "normal";
+        }
+        root.dataset.density = density;
+      })();
+    </script>
     <title>Salut ERP</title>
     <script>
       window.surfAnalyticsBeforeSend = function (_type, payload) {
@@ -49,38 +145,28 @@
         { passive: false }
       );
     </script>
-    <script type="text/javascript">
-      // Single Page Apps for GitHub Pages
-      // MIT License
-      // https://github.com/rafgraph/spa-github-pages
-      // This script checks to see if a redirect is present in the query string,
-      // converts it back into the correct url and adds it to the
-      // browser's history using window.history.replaceState(...),
-      // which won't cause the browser to attempt to load the new url.
-      // When the single page app is loaded further down in this file,
-      // the correct url will be waiting in the browser's history for
-      // the single page app to route accordingly.
-      (function (l) {
-        if (l.search[1] === "/") {
-          var decoded = l.search
-            .slice(1)
-            .split("&")
-            .map(function (s) {
-              return s.replace(/~and~/g, "&");
-            })
-            .join("?");
-          window.history.replaceState(
-            null,
-            null,
-            l.pathname.slice(0, -1) + decoded + l.hash
-          );
-        }
-      })(window.location);
-    </script>
-    <script type="module" crossorigin src="/assets/index-BdlMa6VV.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/framework-9dWxOEpG.js">
-    <link rel="modulepreload" crossorigin href="/assets/api-client-CbO2fgSU.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-h9rTdGRD.css">
+    <script type="module" crossorigin src="/assets/index-Dlgw0tXL.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/rolldown-runtime-hePW80VL.js">
+    <link rel="modulepreload" crossorigin href="/assets/framework-48MSbXsU.js">
+    <link rel="modulepreload" crossorigin href="/assets/middleware-BlUDYAwf.js">
+    <link rel="modulepreload" crossorigin href="/assets/api-client-ngbnlmEX.js">
+    <link rel="modulepreload" crossorigin href="/assets/server-query-8YVOcHc4.js">
+    <link rel="modulepreload" crossorigin href="/assets/cn-24QbgdAa.js">
+    <link rel="modulepreload" crossorigin href="/assets/badge-DsU-l8Vx.js">
+    <link rel="modulepreload" crossorigin href="/assets/i18n-resources-DA6QdrXm.js">
+    <link rel="modulepreload" crossorigin href="/assets/format-price-CJKyFi_n.js">
+    <link rel="modulepreload" crossorigin href="/assets/dist-B1CeWyKv.js">
+    <link rel="modulepreload" crossorigin href="/assets/createLucideIcon-CV58rsfa.js">
+    <link rel="modulepreload" crossorigin href="/assets/app-shell-BNES3tiJ.js">
+    <link rel="modulepreload" crossorigin href="/assets/dist-jMVSWd10.js">
+    <link rel="modulepreload" crossorigin href="/assets/popover-BA0UyaQW.js">
+    <link rel="modulepreload" crossorigin href="/assets/global.store-9DjcAg4H.js">
+    <link rel="modulepreload" crossorigin href="/assets/label-741YtdSp.js">
+    <link rel="modulepreload" crossorigin href="/assets/x-CvknjPIP.js">
+    <link rel="modulepreload" crossorigin href="/assets/dist-DMLXp8Sy.js">
+    <link rel="modulepreload" crossorigin href="/assets/native-bridge-BBVNIhnm.js">
+    <link rel="modulepreload" crossorigin href="/assets/decimal-BqzAOtAh.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-hCgvx4Lj.css">
   <link rel="manifest" href="/manifest.webmanifest"></head>
   <body>
     <div id="root"></div>
